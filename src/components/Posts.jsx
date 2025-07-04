@@ -13,7 +13,7 @@ function Posts() {
         }
   const handlerDiskLike = (id) => { 
         const updatecounter = counter.map((count) => 
-          count.id === id && count.likes > 0 ? {...count, likes: count.likes -1  } : count);
+          count.id === id ? {...count, likes: Math.max(0, count.likes -1)  } : count);
           setCounter(updatecounter);
         }
   
