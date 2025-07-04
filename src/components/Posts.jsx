@@ -1,28 +1,43 @@
+import { postData } from "../raw-data/post-data"; 
+import {useState} from "react";
+
+
 function Posts() {
+  // const like = {postData.map((item,index) => ({item.likes})
+  const [counter,setCounter] = useState(postData) ;
+  
+  const handlerAddLike = (id) => { 
+        const updatecounter = counter.map((count) => 
+          count.id === id ? {...count, likes: count.likes +1 } : count);
+          setCounter(updatecounter);
+        }
+  const handlerDiskLike = (id) => { 
+        const updatecounter = counter.map((count) => 
+          count.id === id && count.likes > 0 ? {...count, likes: count.likes -1  } : count);
+          setCounter(updatecounter);
+        }
+  
   return (
-    <div class="app-wrapper">
-      <h1 class="app-title">Posts</h1>
-      <div class="post-list">
-        <div class="post-item">
-          <div class="post-header">
-            <h2>Post Title #1</h2>
-            <div class="post-social-media-stats">
-              <span class="stats-topic">Likes: </span>
-              <span class="post-likes">10</span>
+    <div className="app-wrapper">
+      <h1 className="app-title">Posts</h1>
+      <div className="post-list">{counter.map((item) => (
+        <div className="post-item" key={item.id}>
+          <div className="post-header">
+            <h2>{item.title}</h2>
+            <div className="post-social-media-stats">
+              <span className="stats-topic">Likes:</span>
+              <span className="post-likes">{item.likes}</span>
             </div>
           </div>
-          <p class="post-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            vel turpis vestibulum, aliquet ipsum vitae, auctor risus. Morbi
-            tincidunt, leo non molestie consectetur, elit libero faucibus
-            tellus, sed fringilla tortor libero sit amet odio. Maecenas sed ante
-            condimentum mauris euismod pellentesque eu eu justo...
+          <p className="post-content">
+            {item.content}
           </p>
-          <div class="post-actions">
-            <button class="like-button">Like</button>
-            <button class="dislike-button">Dislike</button>
+          <div className="post-actions">
+            <button className="like-button" onClick={() => handlerAddLike(item.id)}>Like</button>
+            <button className="dislike-button" onClick={() => handlerDiskLike(item.id)}>Dislike</button>
           </div>
         </div>
+        ))}
       </div>
     </div>
   );
